@@ -5,6 +5,10 @@ from telegram.ext import ApplicationBuilder, CallbackContext, CommandHandler
 
 import envreader
 
+from .commands.maksa import maksa_callback
+from .commands.osta import osta_callback
+from .commands.moro import moro_callback
+
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
@@ -17,7 +21,12 @@ if __name__ == '__main__':
     TOKEN = envreader.get_var('TOKEN')
     application = ApplicationBuilder().token(TOKEN).build()
     
-    start_handler = CommandHandler('start', start)
-    application.add_handler(start_handler)
+    handlers = [CommandHandler('start', start),
+                CommandHandler('start', moro_callback),
+                CommandHandler('start', osta_callback),
+                CommandHandler('start', maksa_callback)]
+    
+    for handler in handlers:
+        application.add_handler(handler)
     
     application.run_polling()
