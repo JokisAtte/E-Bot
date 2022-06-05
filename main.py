@@ -5,9 +5,9 @@ from telegram.ext import ApplicationBuilder, CallbackContext, CommandHandler
 
 import envreader
 
-from .commands.maksa import maksa_callback
-from .commands.osta import osta_callback
-from .commands.moro import moro_callback
+from commands.maksa import maksa_callback
+from commands.osta import osta_callback
+from commands.moro import moro_callback
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',

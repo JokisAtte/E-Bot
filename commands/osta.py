@@ -4,7 +4,7 @@ from telegram.ext import (
     ContextTypes,
 )
 
-async def osta_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def osta_callback(update: Update) -> None:
     
     msg = (
         "placeholder"
