@@ -17,8 +17,8 @@ def get_var(variable: String) -> String:
     
     if(variable=='TOKEN'):
         return os.getenv('TOKEN')
-    elif(variable=='A'):
-        return os.getenv('A')
+    elif(variable=='MONGO_DB_URI'):
+        return os.getenv('MONGO_DB_URI')
     elif(variable=='B'):
         return os.getenv('B')
     else:
