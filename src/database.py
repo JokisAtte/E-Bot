@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 import pymongo
 import envreader
+import datetime
 
 client = MongoClient(envreader.get_var("MONGO_DB_URI"))
 
@@ -55,7 +56,7 @@ def new_payment(user_id, maksu):
     }
     user["payments"].append(payment_obj)
     user["balance"] += maksu
-    db.users.find_one_and_update({"tg_id":user_id}, {"$set": user})
+    db.users.update_one({"tg_id":user_id}, {"$set": user})
 
 def get_users():
     return list(db.users.find())
