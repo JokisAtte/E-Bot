@@ -12,8 +12,6 @@ async def moro_callback(update: Update, context: CallbackContext.DEFAULT_TYPE) -
     # Auth failed ->
     if(userid==0): return
     
-    
-    
     # Auth ok ->
     msg = (
         "Tervetuloa käyttämään piikkiä!"
