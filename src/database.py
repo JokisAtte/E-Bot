@@ -35,17 +35,22 @@ user_schema = {
         "type": payment_schema
     }
 }
+
 # Lisää uuden käyttäjän kantaan
-# user_id: Telegramin käyttäjän id string
-# return: Käyttäjän _id
-def new_user(user_id):
-    user = {
-        'handle': "TODO",
-        "tg_id": user_id,
+# user_id: Telegramin käyttäjä. Tyyppi: telegram.User
+# return: Käyttäjän _id string, tyhjä string jos virhe
+def new_user(user):
+    newUser = {
+        'handle': user.username,
+        "tg_id": user.id,
         "balance": 0,
         "payments": []
     }
-    return db.users.insert_one(user).inserted_id
+    try:
+        return db.users.insert_one(newUser).inserted_id
+    except:
+        print("virhe tietokannassa")
+        return ""
 
 #Etsii yhden käyttäjän
 #user_id: Telegramin käyttäjän id string

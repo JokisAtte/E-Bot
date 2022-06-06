@@ -19,8 +19,10 @@ def get_var(variable: String) -> String:
         return os.getenv('TOKEN')
     elif(variable=='MONGO_DB_URI'):
         return os.getenv('MONGO_DB_URI')
-    elif(variable=='B'):
-        return os.getenv('B')
+    elif(variable=='GROUP_ID_AKTIIVICASE'):
+        return os.getenv('GROUP_ID_AKTIIVICASE')
+    elif(variable=='GROUP_ID_E'):
+        return os.getenv('GROUP_ID_E')
     else:
         logger.error("Env var missing", exc_info=1)
         return ""

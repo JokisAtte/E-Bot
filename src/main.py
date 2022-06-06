@@ -14,17 +14,13 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-async def start(update: Update, context: CallbackContext.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!")
-
 if __name__ == '__main__':
     TOKEN = envreader.get_var('TOKEN')
     application = ApplicationBuilder().token(TOKEN).build()
     
-    handlers = [CommandHandler('start', start),
-                CommandHandler('start', moro_callback),
-                CommandHandler('start', osta_callback),
-                CommandHandler('start', maksa_callback)]
+    handlers = [CommandHandler('moro', moro_callback),
+                CommandHandler('osta', osta_callback),
+                CommandHandler('maksa', maksa_callback)]
     
     for handler in handlers:
         application.add_handler(handler)
