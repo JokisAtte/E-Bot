@@ -9,7 +9,6 @@ import envreader
 
 #käytetään ekaan kirjautumiseen.
 async def moro_callback(update: Update, context) -> None:
-    print("User id: " + str(update.effective_user.id))
     if(auth.authenticate_user(update.effective_user.id)):
         msg = 'Ollaan jo moroteltu @%s. Voit käyttää muita komentojani yksityisviesteinä!' % (update.effective_user.username)
     else:
