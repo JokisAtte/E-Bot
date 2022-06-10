@@ -15,18 +15,10 @@ def get_var(variable: String) -> String:
     dotenv_path = Path('./.env')
     load_dotenv(dotenv_path)
     
-    if(variable=='TOKEN'):
-        return os.getenv('TOKEN')
-    elif(variable=='MONGO_DB_URI'):
-        return os.getenv('MONGO_DB_URI')
-    elif(variable=='GROUP_ID_AKTIIVICASE'):
-        return os.getenv('GROUP_ID_AKTIIVICASE')
-    elif(variable=='GROUP_ID_E'):
-        return os.getenv('GROUP_ID_E')
-    elif(variable=='GROUP_TEST'):
-        return os.getenv('GROUP_TEST')
+    if(os.getenv(variable)):
+        return os.getenv(variable)
     else:
         logger.error("Env var missing", exc_info=1)
         return ""
-    
+
     
