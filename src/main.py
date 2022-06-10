@@ -8,6 +8,7 @@ import envreader
 from commands.maksa import maksa_callback
 from commands.osta import osta_callback
 from commands.moro import moro_callback
+from commands.piikki import piikki_callback
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -20,6 +21,7 @@ if __name__ == '__main__':
     
     handlers = [CommandHandler('moro', moro_callback),
                 CommandHandler('osta', osta_callback),
+                CommandHandler('piikki', piikki_callback),
                 CommandHandler('maksa', maksa_callback)
                 ]
     
