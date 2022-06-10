@@ -23,6 +23,8 @@ def get_var(variable: String) -> String:
         return os.getenv('GROUP_ID_AKTIIVICASE')
     elif(variable=='GROUP_ID_E'):
         return os.getenv('GROUP_ID_E')
+    elif(variable=='GROUP_TEST'):
+        return os.getenv('GROUP_TEST')
     else:
         logger.error("Env var missing", exc_info=1)
         return ""

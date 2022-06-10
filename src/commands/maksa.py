@@ -20,7 +20,7 @@ async def maksa_callback(update: Update, context) -> None:
 
     msg = update.message.text.split(" ")
     if(len(msg)==1): #jos annettu vain /maksa, pyydetään antamaan summa maksukomennossa
-        await update.message.reply_text(text="Anna maksun summa. Esimerkki: /maksa 100")
+        await update.message.reply_text(text="Anna maksun summa. Esimerkki: \"/maksa 100\"")
     else: #Lisää maksu kantaan, päivitä piikin saldo
         amount = msg[1]
         if(is_float(amount)):
