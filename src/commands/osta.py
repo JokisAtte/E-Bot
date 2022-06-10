@@ -8,9 +8,9 @@ from telegram.ext import (
 import auth
 import database as db
 
-def is_float(element) -> bool:
+def is_float(value):
     try:
-        float(element)
+        float(value)
         return True
     except ValueError:
         return False
