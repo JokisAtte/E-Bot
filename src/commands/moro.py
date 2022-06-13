@@ -14,8 +14,6 @@ async def moro_callback(update: Update, context) -> None:
     else:
         id = str(update.effective_chat.id)
         msg = 'Väärä ryhmä'
-        print("id:", type(id), id)
-        print("envreader.get_var(GROUP_TEST):", type(envreader.get_var("GROUP_TEST")), envreader.get_var("GROUP_TEST"))
         #Tarkista onko viesti lähetetty E tai aktiivicase ryhmässä
         if(id == envreader.get_var("GROUP_ID_AKTIIVICASE") or id == envreader.get_var("GROUP_ID_E") or id == envreader.get_var("GROUP_TEST")):
             #Lisää käyttäjä kantaan, tarkisa menikö se läpi
