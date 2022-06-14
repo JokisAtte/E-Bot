@@ -12,11 +12,15 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-#Hae käyttäj
-async def piikki_callback(update: Update, context) -> None:
+async def kaikki_piikit_callback(update: Update, context) -> None:
     msg = "Virhe autentikoinnissa. Oletko sanonut /moro ryhmässä?"
     if(auth.authenticate_user(update.effective_user.id)):
-        balance = db.find_user(update.effective_user.id)['balance']
-        msg = 'Piikkisi on {} €'.format(balance)
-        
+        users = db.get_all_users()
+        result = []
+        msg = ""
+        for i in users:
+            result.append({'handle': i['handle'], 'balance': i['balance']})
+        result_sorted = sorted(result, key=lambda k: k['balance'], reverse=True)
+        for i in result_sorted:
+            msg += '{}: {} € \n'.format(i['handle'], i['balance'])
     await update.message.reply_text(msg) 

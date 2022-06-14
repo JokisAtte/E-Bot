@@ -7,6 +7,11 @@ from telegram.ext import (
 import auth
 import database as db
 
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
+
 def is_float(value):
     try:
         float(value)

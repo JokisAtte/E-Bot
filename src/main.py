@@ -10,6 +10,7 @@ from commands.osta import osta_callback
 from commands.moro import moro_callback
 from commands.piikki import piikki_callback
 from commands.help import help_callback
+from commands.kaikki_piikit import kaikki_piikit_callback
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -24,7 +25,8 @@ if __name__ == '__main__':
                 CommandHandler('osta', osta_callback),
                 CommandHandler('piikki', piikki_callback),
                 CommandHandler('maksa', maksa_callback),
-                CommandHandler('help', help_callback)
+                CommandHandler('help', help_callback),
+                CommandHandler('kaikki', kaikki_piikit_callback)
                 ]
     
     for handler in handlers:

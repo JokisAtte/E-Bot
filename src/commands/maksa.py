@@ -6,6 +6,11 @@ from telegram.ext import (
 import auth
 import database as db
 
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
+
 def is_float(value):
     try:
         float(value)
@@ -25,12 +30,12 @@ async def maksa_callback(update: Update, context) -> None:
         await update.message.reply_text(text="Valitse summa tai käytä komentoa \"/maksa <summa>\". esim \"/maksa 1\"" , reply_markup=kb)
     else: #Lisää maksu kantaan, päivitä piikin saldo
         amount = msg[1]
-        if(is_float(amount) and float(amount)>0):
+        if(is_float(amount) and float(amount)>0): #Pitää olla luku ja yli 0
             user_id = update.effective_user.id
             user = db.find_user(user_id)
-            if(user != None):
+            if(user != None): #Käyttäjä pitää löytyä
                 result = db.new_payment(user["tg_id"], float(amount))
-                if(result != None):
+                if(result != None): #Päivitys onnistui
                     await update.message.reply_text("Maksu lisätty. Tämänhetkinen saldo: {} €".format(result["balance"]))
                 else:
                     await update.message.reply_text("Jokin ongelma, pingaa ylläpitoa :D")

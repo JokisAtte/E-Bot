@@ -7,6 +7,11 @@ import auth
 import database as db
 import envreader
 
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
+
 #käytetään ekaan kirjautumiseen.
 async def moro_callback(update: Update, context) -> None:
     if(auth.authenticate_user(update.effective_user.id)):

@@ -2,10 +2,16 @@ from pymongo import MongoClient, ReturnDocument
 import pymongo
 import envreader
 import datetime
+import logging
 
 client = MongoClient(envreader.get_var("MONGO_DB_URI"))
 
 db = client["users"]
+
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
 
 payment_schema = {
     'date': {
@@ -76,7 +82,7 @@ def new_payment(user_id, maksu):
 
 #Etsii kaikki käyttjät
 #return: lista kaikista käyttäjistä
-def get_users():
+def get_all_users():
     return list(db.users.find())
 
 #Lisää uuden ostoksen käyttäjälle
