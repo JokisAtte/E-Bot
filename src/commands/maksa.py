@@ -1,5 +1,5 @@
 import logging
-from telegram import Update
+from telegram import (Update, ReplyKeyboardMarkup, KeyboardButton )
 from telegram.ext import (
     ContextTypes,
 )
@@ -20,15 +20,18 @@ async def maksa_callback(update: Update, context) -> None:
 
     msg = update.message.text.split(" ")
     if(len(msg)==1): #jos annettu vain /maksa, pyydetään antamaan summa maksukomennossa
-        await update.message.reply_text(text="Anna maksun summa. Esimerkki: \"/maksa 100\"")
+        amounts = [5, 10, 15, 20, 50]
+        kb = ReplyKeyboardMarkup.from_column([KeyboardButton('/maksa {} €'.format(i)) for i in amounts], one_time_keyboard=True)
+        await update.message.reply_text(text="Valitse summa tai käytä komentoa \"/maksa <summa>\". esim \"/maksa 1\"" , reply_markup=kb)
     else: #Lisää maksu kantaan, päivitä piikin saldo
         amount = msg[1]
-        if(is_float(amount)):
+        if(is_float(amount) and float(amount)>0):
             user_id = update.effective_user.id
             user = db.find_user(user_id)
             if(user != None):
-                if(db.new_payment(user["tg_id"], float(amount))):
-                    await update.message.reply_text("Maksu lisätty. Tämänhetkinen saldo: {} €".format(user["balance"]))
+                result = db.new_payment(user["tg_id"], float(amount))
+                if(result != None):
+                    await update.message.reply_text("Maksu lisätty. Tämänhetkinen saldo: {} €".format(result["balance"]))
                 else:
                     await update.message.reply_text("Jokin ongelma, pingaa ylläpitoa :D")
         else:

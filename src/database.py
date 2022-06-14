@@ -1,4 +1,4 @@
-from pymongo import MongoClient
+from pymongo import MongoClient, ReturnDocument
 import pymongo
 import envreader
 import datetime
@@ -61,7 +61,7 @@ def find_user(user_id):
 #Lisää käyttäjälle uuden maksun (eli piikkiä ostettu)
 #user_id: Telegramin käyttäjän id string
 #amount: Maksun määrä
-#return: Boolean menikö maksu läpi onnistuneesti
+#return: Päivitetty dokumentti tai None jos virhe
 def new_payment(user_id, maksu):
     user = find_user(user_id)
     if(user == None):
@@ -72,7 +72,7 @@ def new_payment(user_id, maksu):
     }
     user["payments"].append(payment_obj)
     user["balance"] += maksu
-    return bool(db.users.update_one({"tg_id":user_id}, {"$set": user}).modified_count)
+    return db.users.find_one_and_update({"tg_id":user_id}, {"$set": user}, return_document=ReturnDocument.AFTER, upsert=True)
 
 #Etsii kaikki käyttjät
 #return: lista kaikista käyttäjistä
@@ -82,10 +82,10 @@ def get_users():
 #Lisää uuden ostoksen käyttäjälle
 #user_id: Telegramin käyttäjän id string
 #amount: Ostoksen määrä
-#return: Boolean menikö maksu läpi onnistuneesti
+#return: Päivitetty dokumentti tai None jos virhe
 def new_purchase(user_id, amount):
     user = find_user(user_id)
     if(user == None):
         return False
     user["balance"] += amount   
-    return bool(db.users.update_one({"tg_id":user_id}, {"$set": user}).modified_count)
+    return db.users.find_one_and_update({"tg_id":user_id}, {"$set": user}, return_document=ReturnDocument.AFTER, upsert=True)

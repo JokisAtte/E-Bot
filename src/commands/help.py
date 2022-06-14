@@ -13,7 +13,7 @@ async def help_callback(update: Update, context) -> None:
         msg = "Hei! Olen kerhon piikkibotti.\n Rekisteröidy käyttäjäksi lähettämällä tässä ryhmässä /moro. Rekisteröityminen täytyy tehdä vain kerran. \n Muita komentoja käytetään yksityisviesteinä."
     elif(auth.authenticate_user(update.effective_user.id)):
         #listaa komennot
-        commands = ['/moro - Rekisteröidy käyttäjäksi. Tämä täytyy tehdä vain kerran', '/osta - osta tuote haluamallasi summalla. Esimerkiksi /osta 2 lisää 2 € piikille', '/piikki - Tarkista nykyinen piikkisi', '/maksa - Maksa piikkiä pois haluamallasi summalla. Esimerkiksi /maksa 10 maksaa 10 € piikkiä pois', '/help - Listaa komennot']
+        commands = ['/moro - Rekisteröidy käyttäjäksi. Tämä täytyy tehdä vain kerran', '/osta - osta tuote haluamallasi summalla. Esimerkiksi \"/osta 2\" lisää 2 € piikille', '/piikki - Tarkista nykyinen piikkisi', '/maksa - Maksa piikkiä pois haluamallasi summalla. Esimerkiksi \"/maksa 10\" maksaa 10 € piikkiä pois', '/help - Listaa komennot']
         msg = "Komennot:\n"
         for command in commands:
             msg += command + "\n"

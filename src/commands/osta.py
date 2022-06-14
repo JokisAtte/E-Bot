@@ -1,9 +1,8 @@
 import logging
-from telegram import (Update, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, CallbackQuery, )
+from telegram import (Update, ReplyKeyboardMarkup, KeyboardButton )
 from telegram.ext import (
     ContextTypes,
-    CallbackQueryHandler,
-    
+
 )
 import auth
 import database as db
@@ -27,11 +26,9 @@ async def osta_callback(update: Update, context) -> None:
         await update.message.reply_text(text="Valitse summa tai käytä komentoa \"/osta <summa>\". esim \"/osta 1\"" , reply_markup=kb)
     elif(len(msg)>1): #Jos annettu myös summa lisätään summa piikkiin
         amount = msg[1]
-        if(is_float(amount)):
-            user_id = update.effective_user.id
-            user = db.find_user(user_id)
-            if(user != None):
-                db.new_purchase(user["tg_id"], -1 * float(amount))
-                await update.message.reply_text("Maksu lisätty. Tämänhetkinen saldo: {} €".format(user["balance"]))
+        if(is_float(amount) and float(amount)>0):
+            result = db.new_purchase(update.effective_user.id, -1 * float(amount))
+            if(result != None):
+                await update.message.reply_text("Maksu lisätty. Tämänhetkinen saldo: {} €".format(result["balance"]))
         else: #jos ei ole, hauku käyttäjää
             await update.message.reply_text("Tarkista komento. Esimerkki: /osta 2")
