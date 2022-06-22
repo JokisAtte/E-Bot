@@ -23,4 +23,4 @@ async def piikki_callback(update: Update, context) -> None:
         balance = db.find_user(update.effective_user.id)['balance']
         msg = 'Piikkisi on {} €'.format(balance)
         
-    await update.message.reply_text(msg) 
+    return await update.message.reply_text(msg) 

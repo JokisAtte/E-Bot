@@ -20,7 +20,7 @@ async def kaikki_piikit_callback(update: Update, context) -> None:
         msg = ""
         for i in users:
             result.append({'handle': i['handle'], 'balance': i['balance']})
-        result_sorted = sorted(result, key=lambda k: k['balance'], reverse=True)
+        result_sorted = sorted(result, key=lambda k: k['balance'])
         for i in result_sorted:
             msg += '{}: {} € \n'.format(i['handle'], i['balance'])
     await update.message.reply_text(msg) 
