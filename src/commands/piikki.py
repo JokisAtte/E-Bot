@@ -15,7 +15,11 @@ logging.basicConfig(
 #Hae käyttäj
 async def piikki_callback(update: Update, context) -> None:
     msg = "Virhe autentikoinnissa. Oletko sanonut /moro ryhmässä?"
+    
     if(auth.authenticate_user(update.effective_user.id)):
+        if(auth.message_is_from_correct_group(update.effective_chat)):
+            return await update.message.reply_text("Käytä komentoa /piikki vain yksityisviestillä")
+        
         balance = db.find_user(update.effective_user.id)['balance']
         msg = 'Piikkisi on {} €'.format(balance)
         

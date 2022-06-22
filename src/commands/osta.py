@@ -23,14 +23,16 @@ async def osta_callback(update: Update, context) -> None:
     if(auth.authenticate_user(update.effective_user.id) == False):
         await update.message.reply_text("Joko olet väärässä paikassa tai et ole ottanut bottia käyttöön oikein 🕶️")
         return
-    
+    if(auth.message_is_from_correct_group(update.effective_chat)):
+        return await update.message.reply_text("Käytä komentoa /osta vain yksityisviestillä")
+
     msg = update.message.text.split(" ")
     if(len(msg)==1): #jos annettu vain /osta, näytetään valikko mistä valitaan summa
         amounts = [1, 1.5, 2, 2.5, 3]
         kb = ReplyKeyboardMarkup.from_column([KeyboardButton('/osta {} €'.format(i)) for i in amounts], one_time_keyboard=True)
         await update.message.reply_text(text="Valitse summa tai käytä komentoa \"/osta <summa>\". esim \"/osta 1\"" , reply_markup=kb)
     elif(len(msg)>1): #Jos annettu myös summa lisätään summa piikkiin
-        amount = msg[1]
+        amount = msg[1].strip('€eE')
         if(is_float(amount) and float(amount)>0):
             result = db.new_purchase(update.effective_user.id, -1 * float(amount))
             if(result != None):

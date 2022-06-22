@@ -20,16 +20,17 @@ def is_float(value):
 
 async def maksa_callback(update: Update, context) -> None:
     if(auth.authenticate_user(update.effective_user.id) == False):
-        await update.message.reply_text("Joko olet väärässä paikassa tai et ole ottanut bottia käyttöön oikein 🕶️")
-        return
-
+        return await update.message.reply_text("Joko olet väärässä paikassa tai et ole ottanut bottia käyttöön oikein 🕶️")
+    if(auth.message_is_from_correct_group(update.effective_chat)):
+        return await update.message.reply_text("Käytä komentoa /maksa vain yksityisviestillä")
+    
     msg = update.message.text.split(" ")
     if(len(msg)==1): #jos annettu vain /maksa, pyydetään antamaan summa maksukomennossa
         amounts = [5, 10, 15, 20, 50]
         kb = ReplyKeyboardMarkup.from_column([KeyboardButton('/maksa {} €'.format(i)) for i in amounts], one_time_keyboard=True)
         await update.message.reply_text(text="Valitse summa tai käytä komentoa \"/maksa <summa>\". esim \"/maksa 1\"" , reply_markup=kb)
     else: #Lisää maksu kantaan, päivitä piikin saldo
-        amount = msg[1]
+        amount = msg[1].strip('€eE')
         if(is_float(amount) and float(amount)>0): #Pitää olla luku ja yli 0
             user_id = update.effective_user.id
             user = db.find_user(user_id)

@@ -20,7 +20,7 @@ async def moro_callback(update: Update, context) -> None:
         id = str(update.effective_chat.id)
         msg = 'Väärä ryhmä'
         #Tarkista onko viesti lähetetty E tai aktiivicase ryhmässä
-        if(id == envreader.get_var("GROUP_ID_AKTIIVICASE") or id == envreader.get_var("GROUP_ID_E") or id == envreader.get_var("GROUP_TEST")):
+        if(auth.message_is_from_correct_group(update.effective_chat)):
             #Lisää käyttäjä kantaan, tarkisa menikö se läpi
             if(len(str(db.new_user(update.effective_user)))>0):
                 msg = 'Käyttäjä @%s lisätty. Anna käskyt jatkossa yksityisviestinä.' % (update.effective_user.username)
