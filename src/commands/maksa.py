@@ -5,6 +5,7 @@ from telegram.ext import (
 )
 import auth
 import database as db
+import envreader as env
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -18,10 +19,13 @@ def is_float(value):
     except ValueError:
         return False
 
+async def laheta_viesti_maksusta(update, user, amount):
+    return await update.message.reply_text("{user} maksoi {amount} €", chat_id = env.get_var('GROUP_TEST'))
+
 async def maksa_callback(update: Update, context) -> None:
     if(auth.authenticate_user(update.effective_user.id) == False):
         return await update.message.reply_text("Joko olet väärässä paikassa tai et ole ottanut bottia käyttöön oikein 🕶️")
-    if(auth.message_is_from_correct_group(str(update.effective_chat.id)) == True):
+    if(auth.message_is_from_correct_group(update.effective_chat.id)):
         return await update.message.reply_text("Käytä komentoa /maksa vain yksityisviestillä")
 
     msg = update.message.text.split(" ")
@@ -37,6 +41,7 @@ async def maksa_callback(update: Update, context) -> None:
             if(user != None): #Käyttäjä pitää löytyä
                 result = db.new_payment(user["tg_id"], float(amount))
                 if(result != None): #Päivitys onnistui
+                    await laheta_viesti_maksusta(update, user_id, amount)
                     await update.message.reply_text("Maksu lisätty. Tämänhetkinen saldo: {} €".format(result["balance"]))
                 else:
                     await update.message.reply_text("Jokin ongelma, pingaa ylläpitoa :D")
