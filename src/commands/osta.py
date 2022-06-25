@@ -22,7 +22,7 @@ def is_float(value):
 async def osta_callback(update: Update, context) -> None:
     if(auth.authenticate_user(update.effective_user.id) == False):
         return await update.message.reply_text("Joko olet väärässä paikassa tai et ole ottanut bottia käyttöön oikein 🕶️")
-    if(auth.message_is_from_correct_group(update.effective_chat)):
+    if(auth.message_is_from_correct_group(update.effective_chat.id)):
         return await update.message.reply_text("Käytä komentoa /osta vain yksityisviestillä")
 
     msg = update.message.text.split(" ")

@@ -37,7 +37,7 @@ user_schema = {
         "type": int,
         "required": True
     },
-    'payments':{
+    'history':{
         "type": payment_schema
     }
 }
@@ -50,7 +50,7 @@ def new_user(user):
         'handle': user.username,
         "tg_id": user.id,
         "balance": 0,
-        "payments": []
+        "history": []
     }
     try:
         return db.users.insert_one(newUser).inserted_id
@@ -68,16 +68,16 @@ def find_user(user_id):
 #user_id: Telegramin käyttäjän id string
 #amount: Maksun määrä
 #return: Päivitetty dokumentti tai None jos virhe
-def new_payment(user_id, maksu):
+def new_payment(user_id, amount):
     user = find_user(user_id)
     if(user == None):
         return False
     payment_obj = {
         "date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "amount": maksu
+        "amount": amount
     }
-    user["payments"].append(payment_obj)
-    user["balance"] += maksu
+    user["history"].append(payment_obj)
+    user["balance"] += amount
     return db.users.find_one_and_update({"tg_id":user_id}, {"$set": user}, return_document=ReturnDocument.AFTER, upsert=True)
 
 #Etsii kaikki käyttjät
@@ -93,5 +93,10 @@ def new_purchase(user_id, amount):
     user = find_user(user_id)
     if(user == None):
         return False
+    payment_obj = {
+    "date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+    "amount": amount
+    }
+    user["history"].append(payment_obj)
     user["balance"] += amount   
     return db.users.find_one_and_update({"tg_id":user_id}, {"$set": user}, return_document=ReturnDocument.AFTER, upsert=True)

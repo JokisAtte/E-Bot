@@ -10,4 +10,5 @@ def authenticate_user(user_id):
         return False
 
 def message_is_from_correct_group(group_id):
+    group_id = str(group_id)
     return group_id == envreader.get_var("GROUP_ID_E") or group_id == envreader.get_var("GROUP_TEST") or  group_id == envreader.get_var("GROUP_ID_AKTIIVICASE")
