@@ -41,7 +41,7 @@ async def maksa_callback(update: Update, context) -> None:
             if(user != None): #Käyttäjä pitää löytyä
                 result = db.new_payment(user["tg_id"], float(amount))
                 if(result != None): #Päivitys onnistui
-                    await laheta_viesti_maksusta(update, user_id, amount)
+                    # await laheta_viesti_maksusta(update, user_id, amount)
                     await update.message.reply_text("Maksu lisätty. Tämänhetkinen saldo: {} €".format(result["balance"]))
                 else:
                     await update.message.reply_text("Jokin ongelma, pingaa ylläpitoa :D")
