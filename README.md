@@ -8,6 +8,4 @@ Telegram bot, that helps keep track of depts.
 3. run `pip install -r requirements.txt`
 4. create and fill a `.env` file from `.env.example`
 5. run `python src/main.py`
-
-## API
-TODO
+6. send `/help` to the bot in telegram to view all commands
