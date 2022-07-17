@@ -2,9 +2,9 @@ import logging
 from tokenize import Token
 from telegram import Update
 from telegram.ext import Updater, ApplicationBuilder, CallbackContext, CommandHandler, CallbackQueryHandler, ContextTypes
-
+import os
 import envreader
-
+import asyncio
 from commands.maksa import maksa_callback
 from commands.osta import osta_callback
 from commands.moro import moro_callback
